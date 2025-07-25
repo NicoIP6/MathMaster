@@ -1,0 +1,31 @@
+# Theorie des ensemble :
+
+
+Qu'est-ce qu'un singleton : Un ensemble ne comprenant qu'un seul élément.
+Qu'est-ce qu'une paire : un ensemble comprenant exactement deux éléments.
+
+## Symboles logiques
+
+- **A ⇒ B** : A implique B : si A est vrai, B est vrai aussi. Si A est faux, alors A ⇒ B est toujours vrai.
+- **A ⇔ B** : A est équivalent à B :
+  - Si A est vrai et B est vrai, alors équivalence.
+  - Si A est faux et B est faux, alors équivalence.
+  - Si A est faux et B est vrai (ou inversement), alors non-équivalence.
+- **∃x** : Il existe au moins un x remplissant la condition.
+- **x : ...** : x satisfait une propriété.
+- **∀x : ...** : La propriété est vraie pour tout x d'un ensemble donné.
+
+## Notions sur les ensemble
+
+- **x ∈ A** : x appartient à l'ensemble A. (∈ = appartient)
+- **A ⊆ B** : A est inclus dans B (tous les éléments de A sont dans B). (⊆ = inclus)
+- **#A** : Le cardinal de A soit le nombre d'éléments compris dans l'ensemble
+
+## Opérations sur les ensembles 
+
+- **A ∩ B** : Intersection de A et B (éléments communs aux deux ensembles).
+- **A ∪ B** : Union de A et B (tous les éléments de A et de B).
+- **A \ B** : Différence de A et B (Tous les éléments de A n'appartenant pas à B !!! différent de B \ A)
+- **A x B** : Produit cartésien de A et B (A x B différent de B x A) exemple :
+  - si A = {1, 2, 3} et B = {a, b} A x B = {1a, 1b, 2a, 2b, 3a, 3b}
+  - B x A = {a1, a2, a3, b1, b2, b3}
