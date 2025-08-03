@@ -12,51 +12,36 @@ class MATRIX:
         self.columns = columns
         self.matrix = [[1,3,0,1], [2,0,1,2], [1,2,1,5], [5,3,1,4]] # [[randint(0, 21) for _ in range(columns)] for _ in range(lines)]
 
-    # @classmethod
-    # def is_matrix(cls, matrix):
-    #     """
-    #
-    #     :param self:
-    #     :return:
-    #     """
-    #     if isinstance(matrix, int):
-    #         return False
-    #     print(matrix)
-    #     len_vector = len(matrix)
-    #     is_mat = True
-    #     for i in range(0, len(matrix)):
-    #         if len(matrix[i]) != len_vector:
-    #             is_mat = False
-    #
-    #     return is_mat
 
+    def is_square(self):
 
-    @classmethod
-    def is_square(cls, matrix):
         """
 
-        :param matrix:
         :return:
         """
 
-        len_mat = len(matrix)
-        len_vec = len(matrix[0])
+        len_mat = len(self.matrix)
+        len_vec = len(self.matrix[0])
         if len_mat == len_vec:
             return True
         else:
             return False
 
 
-    @classmethod
-    def is_diagonal(cls, matrix):
+    def is_diagonal(self):
+
         """
 
-        :param matrix: must be a square matrix
-        :return: True or False as if the matrix is diagonal or not
+        :return: return a tuple with True or False in the first position
+                 and the diagonal in the second (empty list if False).
+                 Return a note if not a square matrix
         """
+
+        if not self.is_square():
+            return "Not a Square matrix so it can't have a diagonal"
         is_diag = True
         diag = []
-        for indexVec, vector in enumerate(matrix):
+        for indexVec, vector in enumerate(self.matrix):
             for indexElem, element in enumerate(vector):
                 if indexElem != indexVec and element != 0:
                     is_diag = False
@@ -66,195 +51,204 @@ class MATRIX:
         return is_diag, diag
 
 
-    @classmethod
-    def is_bottom_triangle(cls, matrix):
+    def is_bottom_triangle(self):
+
         """
 
-        :param matrix: must be a square matrix
-        :return: True or False as if the matrix is Bottom Triangle or not
+        :return: return True if the object attribute "matrix" is a bottom triangle False otherwise.
+                 return a note if not a square matrix.
         """
 
+        if not self.is_square():
+            return "Not a Square matrix so it can't be triangle"
         is_bot_tri = True
-        for indexVec, vector in enumerate(matrix):
+        for indexVec, vector in enumerate(self.matrix):
             for indexElem, element in enumerate(vector):
                 if indexVec < indexElem and element != 0:
                     is_bot_tri = False
         return is_bot_tri
 
 
-    @classmethod
-    def is_top_triangle(cls, matrix):
+    def is_top_triangle(self):
+
         """
 
-        :param matrix: must be a square matrix
-        :return: True or False as if the matrix is Top Triangle or not
+        :return: return True if the object attribute "matrix" is a top triangle False otherwise.
+                 return a note if not a square matrix.
         """
 
+        if not self.is_square():
+            return "Not a Square matrix so it can't be triangle"
         is_top_tri = True
-        for indexVec, vector in enumerate(matrix):
+        for indexVec, vector in enumerate(self.matrix):
             for indexElem, element in enumerate(vector):
                 if indexVec > indexElem and element != 0:
                     is_top_tri = False
         return is_top_tri
 
 
-    @classmethod
-    def is_triangle(cls, matrix):
+    def is_triangle(self):
+
         """
 
-        :param matrix: must be a square matrix
         :return: True or False as if the matrix is Triangle or not (despite if it's top or bottom)
         """
 
         is_tri = False
-        if cls.is_top_triangle(matrix) or cls.is_bottom_triangle(matrix):
+        if self.is_top_triangle() or self.is_bottom_triangle():
             is_tri = True
         return is_tri
 
 
-    @classmethod
-    def is_identity(cls, matrix):
-        """
+    def is_identity(self):
 
-        :param matrix: must be a square matrix
+        """
         :return: True or False as if the matrix is Triangle or not (despite if it's top or bottom)
         """
-        param_mat = cls.is_diagonal(matrix)
+
+        param_mat = self.is_diagonal()
         if param_mat[0] and all(i == 1 for i in param_mat[1]):
             return True
         else:
             return False
 
 
-    @classmethod
-    def is_equal(cls, matrix1, matrix2):
+    def is_equal(self, matrix2):
+
+        """
+        :param matrix2: must be a second MATRIX Object
+        :return: True if the first and the second matrix are equal. Return a note if matrix2 is not a MATRIX instance.
         """
 
-        :param matrix1:
-        :param matrix2:
-        :return:
-        """
-        return True if matrix1.matrix == matrix2.matrix else False
+        if not isinstance(matrix2, MATRIX):
+            return "The second argument must be a matrix object"
+
+        return True if self.matrix == matrix2.matrix else False
 
 
-    @classmethod
-    def add_matt(cls, matrix1, matrix2):
+    def add_matt(self, matrix2):
+
+        """
+        :param matrix2: must be a second MATRIX Object
+        :return: Return a new matrix that reflects the addition of the matrix.
         """
 
-        :param matrix1:
-        :param matrix2:
-        :return:
-        """
-        len1, len2 = len(matrix1), len(matrix2)
-        len_vector1, len_vector2 = len(matrix1[0]), len(matrix2[0])
+        len1, len2 = len(self.matrix), len(matrix2.matrix)
+        len_vector1, len_vector2 = len(self.matrix[0]), len(matrix2.matrix[0])
         if len1 != len2 or len_vector1 != len_vector2:
-            return "these matrix can't be added"
+            return "these matrices can't be added"
 
         added_matrix = []
         for i in range(0, len1):
             temp = []
             for j in range(0, len_vector1):
-                temp.append(matrix1[i][j] + matrix2[i][j])
+                temp.append(self.matrix[i][j] + matrix2.matrix[i][j])
             added_matrix.append(temp)
-
 
         return added_matrix
 
 
-    @classmethod
-    def matrix_mult_by_r(cls, matrix1, real):
-        """
+    def matrix_mult_by_r(self, real):
 
-        :param matrix1:
-        :param real:
-        :return:
+        """
+        :param real: must be the real number that will be used to multiply the matrix.
+        :return: Return a new matrix with all the element multiply by the real
         """
 
         if isinstance(real, float):
-            for i in range(0, len(matrix1)):
-                for j in range(0, len(matrix1[0])):
-                    matrix1[i][j] = matrix1[i][j] * real
-            return matrix1
+            mult_mat = deepcopy(self.matrix)
+            for i in range(len(mult_mat)):
+                for j in range(len(mult_mat[0])):
+                    mult_mat[i][j] = mult_mat[i][j] * real
+            return mult_mat
         else:
             return "Something went wrong with the multiplication by a real"
 
 
-    @classmethod
-    def matrix_mult_by_matrix(cls, matrix1, matrix2):
+    def matrix_mult_by_matrix(self, matrix2):
 
+        """
+        :param matrix2: must be a second MATRIX Object
+        :return: Return a new matrix with the result of the multiplication of two matrix.
+        """
+
+        if not isinstance(matrix2, MATRIX):
+            return "The argument must be a MATRIX object it's actually not."
         res_matrix = []
-        if len(matrix1[0]) != len(matrix2):
+        if len(self.matrix[0]) != len(matrix2.matrix):
             return "these matrix can't be multiplied by themselves"
         else:
-            for index_m1, elem_m1 in enumerate(matrix1):
+            for index_m1, elem_m1 in enumerate(self.matrix):
                 temp_vec = []
-                temp_vec.extend(0 for i in range(len(matrix2[0])))
+                temp_vec.extend(0 for i in range(len(matrix2.matrix[0])))
                 for index_vec1, elem_vec1 in enumerate(elem_m1):
-                    for index_vec2, elem_vec2 in enumerate(matrix2[index_vec1]):
+                    for index_vec2, elem_vec2 in enumerate(matrix2.matrix[index_vec1]):
                         temp_vec[index_vec2] += (elem_vec1 * elem_vec2)
                 res_matrix.append(temp_vec)
 
         return res_matrix
 
 
-    @classmethod
-    def exponential_matrix(cls, matrix, exp):
+    def exponential_matrix(self, exp):
+
         """
 
-        :param exp:
-        :param matrix:
-        :return:
+        :param exp: The exponential number for the matrix
+        :return: Return a new matrix with the result
         """
-        res = matrix
-        if cls.is_square(matrix):
+
+        res = MATRIX(6,6)
+        res.matrix = deepcopy(self.matrix)
+        if self.is_square():
             for i in range(exp - 1):
-                res = cls.matrix_mult_by_matrix(res, matrix)
-            return res
+                res.matrix = self.matrix_mult_by_matrix(res)
+            return res.matrix
         else:
             return "Not possible to expose"
 
 
-    @classmethod
-    def transpose_matrix(cls, matrix1):
+    def transpose_matrix(self):
+
         """
 
-        :param matrix1:
-        :return:
+        :return: return the transposed matrix
         """
+
         transposed_matrix = []
-        for i in range(len(matrix1[0])):
+        for i in range(len(self.matrix[0])):
             transposed_matrix.append([])
-        for i in matrix1:
+        for i in self.matrix:
             for index, elem in enumerate(i):
                 transposed_matrix[index].append(elem)
+
         return transposed_matrix
 
 
-    @classmethod
-    def cofactor_matrix(cls, matrix1):
+    def cofactor_matrix(self):
+
         """
 
-        :param matrix1:
-        :return:
+        :return: Return the cofactor matrix of object's matrix
         """
+
         cofactor_mat = []
-        if len(matrix1) == 2:
+        if len(self.matrix) == 2:
             return "no cofactor matrix for a range 2 matrix"
 
-        for index_vector in range(len(matrix1)):
+        for index_vector in range(len(self.matrix)):
             new_vector  = []
-            for index_elem in range(len(matrix1[index_vector])):
-                temp_matrix = deepcopy(matrix1)
+            for index_elem in range(len(self.matrix[index_vector])):
+                temp_matrix = deepcopy(self.matrix)
                 temp_matrix.pop(index_vector)
                 temp_object = MATRIX(len(temp_matrix), len(temp_matrix[0]))
                 temp_object.matrix = temp_matrix
                 for i in temp_object.matrix:
                      i.pop(index_elem)
                 if len(temp_object.matrix) == 2:
-                    cofactor = cls.determinant_by_cofactor(temp_object.matrix)
+                    cofactor = temp_object.determinant_by_cofactor()
                     new_vector.append(cofactor)
                 elif len(temp_matrix) > 2:
-                    cofactor = cls.determinant_by_cofactor(temp_object.matrix)
+                    cofactor = temp_object.determinant_by_cofactor()
                     new_vector.append(cofactor)
             for i in range(len(new_vector)):
                 new_vector[i] = new_vector[i] * ((-1) ** (i + index_vector))
@@ -263,73 +257,64 @@ class MATRIX:
         return cofactor_mat
 
 
-    # def matrix_determinant(self):
-    #     """
-    #
-    #     :param self:
-    #     :return:
-    #     """
-    #     if not self.is_square():
-    #         return "You can't find a determinant"
-    #     elif len(self.matrix[0]) == 2:
-    #         return (self.matrix[0][0] * self.matrix[1][1]) - (self.matrix[0][1] * self.matrix[1][0])
+    def determinant_by_cofactor(self):
 
-
-    @classmethod
-    def determinant_by_cofactor(cls, matrix):
         """
 
-        :param matrix:
-        :return:
+        :return: Return the determinant of the object's matrix
         """
 
-        if not cls.is_square(matrix):
+        if not self.is_square():
             return "You can't find a determinant"
-        elif len(matrix[0]) == 2:
-            return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
+        elif len(self.matrix[0]) == 2:
+            return (self.matrix[0][0] * self.matrix[1][1]) - (self.matrix[0][1] * self.matrix[1][0])
         else:
             determinant = 0
-            vector = matrix[0]
-            cofac_vector = cls.cofactor_matrix(matrix)
+            vector = self.matrix[0]
+            cofac_vector = self.cofactor_matrix()
             for i in range(len(vector)):
                 determinant += (vector[i] * cofac_vector[0][i])
 
         return determinant
 
 
-    @classmethod
-    def inverse_matrix(cls, matrix):
+    def inverse_matrix(self):
+
         """
 
-        :param matrix:
-        :return:
+        :return: Return the inverse object's matrix
         """
 
-        if len(matrix) == 2:
-            if cls.determinant_by_cofactor(matrix) == 0:
-                return "This matrix can't be inverted (determinant = 0)"
-            else:
-                det_mat = cls.determinant_by_cofactor(matrix)
+        if self.determinant_by_cofactor() == 0:
+            return "This matrix can't be inverted (determinant = 0)"
         else:
-            if cls.determinant_by_cofactor(matrix) == 0:
-                return "This matrix can't be inverted (determinant = 0)"
-            else:
-                det_mat = cls.determinant_by_cofactor(matrix)
+            det_mat = self.determinant_by_cofactor()
         cofactor_matrix = MATRIX(1,1)
-        cofactor_matrix.matrix = cls.cofactor_matrix(matrix)
+        cofactor_matrix.matrix = self.cofactor_matrix()
         transposed_cofmat = MATRIX(1,1)
-        transposed_cofmat.matrix = cls.transpose_matrix(cofactor_matrix.matrix)
+        transposed_cofmat.matrix = cofactor_matrix.transpose_matrix()
         #print(det_mat)
-        return cls.matrix_mult_by_r(transposed_cofmat.matrix, 1/det_mat)
+        return transposed_cofmat.matrix_mult_by_r(1/det_mat)
 
 
+matrix_test = [[2], [6], [1], [0.25]]
 test = MATRIX(6,6)
+test2 = MATRIX(6,6)
+test2.matrix = matrix_test
 print(test.matrix)
 print(20* "-")
-print(MATRIX.cofactor_matrix(test.matrix))
+print(test.cofactor_matrix())
 print(20* "-")
-print(test.determinant_by_cofactor(test.matrix))
+print(test.determinant_by_cofactor())
 print(20* "-")
-print(MATRIX.transpose_matrix(test.matrix))
+print(test.transpose_matrix())
 print(20* "-")
-print(MATRIX.inverse_matrix(test.matrix))
+print(test.inverse_matrix())
+print(20* "-")
+print(test.add_matt(test2))
+print(20* "-")
+print(test.matrix_mult_by_r(1.2))
+print(20* "-")
+print(test.matrix_mult_by_matrix(test2))
+print(20* "-")
+print(test.matrix)
