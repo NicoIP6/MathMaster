@@ -2,15 +2,20 @@ from copy import deepcopy
 from random import randint
 
 
+
 class MATRIX:
     """
 
     """
 
-    def __init__(self, lines, columns):
-        self.lines = lines
-        self.columns = columns
-        self.matrix = [[1,3,0,1], [2,0,1,2], [1,2,1,5], [5,3,1,4]] # [[randint(0, 21) for _ in range(columns)] for _ in range(lines)]
+    def __init__(self, lines=0, columns=0, random_col_lin = False):
+        if random_col_lin or (lines == 0 and columns == 0):
+            self.lines = randint(2,7)
+            self.columns = randint(2,7)
+        else:
+            self.lines = lines
+            self.columns = columns
+        self.matrix = [[randint(-20, 21) for _ in range(columns)] for _ in range(lines)]
 
 
     def is_square(self):
@@ -175,12 +180,12 @@ class MATRIX:
         if not isinstance(matrix2, MATRIX):
             return "The argument must be a MATRIX object it's actually not."
         res_matrix = []
-        if len(self.matrix[0]) != len(matrix2.matrix):
+        if self.columns != matrix2.lines:
             return "these matrix can't be multiplied by themselves"
         else:
             for index_m1, elem_m1 in enumerate(self.matrix):
                 temp_vec = []
-                temp_vec.extend(0 for i in range(len(matrix2.matrix[0])))
+                temp_vec.extend(0 for _ in range(len(matrix2.matrix[0])))
                 for index_vec1, elem_vec1 in enumerate(elem_m1):
                     for index_vec2, elem_vec2 in enumerate(matrix2.matrix[index_vec1]):
                         temp_vec[index_vec2] += (elem_vec1 * elem_vec2)
@@ -297,24 +302,17 @@ class MATRIX:
         return transposed_cofmat.matrix_mult_by_r(1/det_mat)
 
 
-matrix_test = [[2], [6], [1], [0.25]]
-test = MATRIX(6,6)
-test2 = MATRIX(6,6)
-test2.matrix = matrix_test
-print(test.matrix)
-print(20* "-")
-print(test.cofactor_matrix())
-print(20* "-")
-print(test.determinant_by_cofactor())
-print(20* "-")
-print(test.transpose_matrix())
-print(20* "-")
-print(test.inverse_matrix())
-print(20* "-")
-print(test.add_matt(test2))
-print(20* "-")
-print(test.matrix_mult_by_r(1.2))
-print(20* "-")
-print(test.matrix_mult_by_matrix(test2))
-print(20* "-")
-print(test.matrix)
+if __name__ == "__main__":
+    # matrix_test = [[1,3,0,1], [2,0,1,2], [1,2,1,5], [5,3,1,4]]
+    test2 = MATRIX(4,4)
+    print(test2.matrix)
+    print(20* "-")
+    print(test2.cofactor_matrix())
+    print(20* "-")
+    print(test2.determinant_by_cofactor())
+    # print(20* "-")
+    # print(test2.transpose_matrix())
+    # print(20* "-")
+    # print(test2.inverse_matrix())
+    # print(20* "-")
+    # print(test2.matrix)
